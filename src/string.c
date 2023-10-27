@@ -37,3 +37,21 @@ size_t utf8_strlen(const char* _str) {
 
     return len;
 }
+
+size_t utf8_strnlen(const char* _str, size_t _max) {
+    assert(_str != NULL);
+    assert(_max != 0);
+    if(!_str || !_max) return 0;
+
+    size_t len = 0;
+    int bytes = 0;
+    do {
+        bytes = utf8_get_expected_bytes(*_str);
+        if(bytes < 0) return len;
+        if(!*(_str += bytes + 1)) return len;
+
+        len++;
+    } while(len < _max);
+
+    return len;
+}

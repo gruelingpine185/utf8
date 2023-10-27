@@ -55,3 +55,19 @@ size_t utf8_strnlen(const char* _str, size_t _max) {
 
     return len;
 }
+
+int utf8_strcmp(const char* _str1, const char* _str2) {
+    assert(_str1 != NULL);
+    assert(_str2 != NULL);
+    do {
+        if(*_str1 != *_str2) break;
+
+        _str1++;
+        _str2++;
+    } while(*_str1 && *_str2);
+
+    if(*_str1 < *_str2) return -1;
+    if(*_str1 > *_str2) return 1;
+
+    return 0;
+}

@@ -8,7 +8,6 @@
  * codepoint.
  *
  * Returns a value from 0 to 3 if successful, otherwise returns -1.
- *
 */
 int utf8_get_expected_bytes(int _cp);
 

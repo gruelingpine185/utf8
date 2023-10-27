@@ -1,0 +1,12 @@
+utf8
+*.o
+test/
+bin/
+!inc/utf8/
+
+# bear
+compile_commands.json
+.cache/
+
+# macos
+.DS_Store

@@ -70,3 +70,23 @@ int utf8_strcmp(const char* _str1, const char* _str2) {
 
     return 0;
 }
+
+int utf8_strncmp(const char* _str1, const char* _str2, size_t _max) {
+    assert(_str1 != NULL);
+    assert(_str2 != NULL);
+    if(!_max || !_str1 || !_str2) return -2;
+
+    size_t i = 0;
+    do {
+        if(*_str1 != *_str2) break;
+
+        _str1++;
+        _str2++;
+        i++;
+    } while(i < _max);
+
+    if(*_str1 < *_str2) return -1;
+    if(*_str1 > *_str2) return 1;
+
+    return 0;
+}

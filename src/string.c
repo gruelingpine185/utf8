@@ -58,6 +58,8 @@ size_t utf8_strnlen(const char* _str, size_t _max) {
 int utf8_strcmp(const char* _str1, const char* _str2) {
     assert(_str1 != NULL);
     assert(_str2 != NULL);
+    if(!_str1 || !_str2) return -2;
+
     do {
         if(*_str1 != *_str2) break;
 

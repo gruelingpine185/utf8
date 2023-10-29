@@ -24,7 +24,7 @@ size_t utf8_strlen(const char* _str);
  * Determines the length of a given string in codepoints up to a given maximum,
  * excluding the terminating null byte.
  * 
- * If there exists a null terminator in string before the maximim length is met,
+ * If there exists a null terminator in string before the maximum length is met,
  * or an unexpected codepoint is encountered, this function will return the
  * length of the given string up to that point.
  * 

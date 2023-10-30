@@ -1,5 +1,7 @@
 utf8
 *.o
+*.dylib
+*.so
 test/
 bin/
 !inc/utf8/

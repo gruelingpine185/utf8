@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdlib.h>
 
 #include "string.h"
 
@@ -11,6 +12,20 @@
 */
 int utf8_get_expected_bytes(uint32_t _cp);
 
+/**
+ * Collects a single codepoint pointed to by the given string.
+ * 
+ * This codepoint is expected to have 0 to 3 bytes following the initial byte.
+ * If any other value is passed to _bytes, NULL is returned.
+ * 
+ * If the codepoint expects more bytes than is in the given string, NULL is
+ * returned.
+ * 
+ * Returns an allocated NULL terminated string holding the codepoint pointed to
+ * by _str.
+*/
+char* utf8_codepoint_to_str(const char* _str, int _bytes);
+
 
 int utf8_get_expected_bytes(uint32_t _cp) {
     if((_cp & 0x80) == 0)    return 0;   // 0b0xxx xxxx
@@ -19,6 +34,27 @@ int utf8_get_expected_bytes(uint32_t _cp) {
     if((_cp & 0xf8) == 0xf0) return 3;   // 0b1111 0xxx
     
     return -1;
+}
+
+char* utf8_codepoint_to_str(const char* _str, int _bytes) {
+    assert(_str != NULL);
+    assert((_bytes < 3) || (_bytes > 0));
+    if(!_str || ((_bytes < 0) || (_bytes > 3))) return NULL;
+
+    // +1 to get bytes including the current, and +1 for Null terminator
+    char* cp = (char*) malloc(sizeof(*cp) * (_bytes + 2));
+    if(!cp) return NULL;
+
+    for(int i = 0; i < _bytes + 1; i++) {
+        cp[i] = *_str;
+        if(!*_str++) {
+            free(cp);
+            return NULL;
+        }
+    }
+
+    cp[_bytes + 2] = '\0';
+    return cp;
 }
 
 size_t utf8_strlen(const char* _str) {

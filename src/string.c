@@ -128,3 +128,20 @@ int utf8_strncmp(const char* _str1, const char* _str2, size_t _max) {
 
     return 0;
 }
+
+char* utf8_codepoint_at(const char* _str, size_t _offset) {
+    assert(_str != NULL);
+    if(!_str) return NULL;
+
+    size_t i = 0;
+    int bytes = 0;
+    do {
+        bytes = utf8_get_expected_bytes(*_str);
+        if(bytes < 0) return NULL;
+        if(i == _offset) return utf8_codepoint_to_str(_str, bytes);
+
+        i++;
+    } while(*(_str += bytes + 1));
+
+    return NULL;
+}

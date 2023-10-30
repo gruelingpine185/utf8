@@ -54,6 +54,18 @@ int utf8_strcmp(const char* _str1, const char* _str2);
  * otherwise 1 is returned.
 */
 int utf8_strncmp(const char* _str1, const char* _str2, size_t _max);
+
+/**
+ * Collects the codepoint at a given offset (in codepoints) within a given
+ * string.
+ * 
+ * If the offset given is less the amount of codepoints within the string, NULL
+ * is returned.
+ * 
+ * Returns a NULL terminated allocated string consisting solely of the
+ * codepoint.
+*/
+char* utf8_codepoint_at(const char* _str, size_t _offset);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

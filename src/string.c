@@ -53,6 +53,18 @@ int utf8_get_expected_bytes(uint32_t _cp);
 char* utf8_codepoint_to_str(const char* _str, int _bytes);
 
 
+const char* utf8_advance_to_start(const char* _str) {
+    if(!_str) return NULL;
+
+    int bytes = 0;
+    do {
+        bytes = utf8_get_expected_bytes(*_str);
+        if(bytes) return _str;
+    } while(*_str++);
+
+    return NULL;
+}
+
 int utf8_get_expected_bytes(uint32_t _cp) {
     return codepoint_len_lookup[_cp];
 }

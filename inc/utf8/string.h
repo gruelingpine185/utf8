@@ -66,6 +66,17 @@ int utf8_strncmp(const char* _str1, const char* _str2, size_t _max);
  * codepoint.
 */
 char* utf8_codepoint_at(const char* _str, size_t _offset);
+
+/**
+ * If the given string points to an invalid starting point, it traverses the
+ * string until the start of the next codepoint. This function does not check
+ * the validity of codepoint it lands on.
+ * 
+ * Returns a pointer to the start of the next codepoint. If the string ends
+ * before the next codepoint is found, or the string itself is NULL, NULL is
+ * returned.
+*/
+const char* utf8_advance_to_start(const char* _str);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

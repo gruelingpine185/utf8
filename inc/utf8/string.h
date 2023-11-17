@@ -9,6 +9,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
+
+/**
+ * Determines the amount of expected contiguous bytes not including the given
+ * codepoint.
+ *
+ * Returns a value from -1 to 3 (inclusive). -1 indicates an invalid codepoint. 
+*/
+int utf8_get_expected_bytes(uint32_t _cp);
+
 /**
  * Determines the length of a given string in codepoints, excluding the
  * terminating null byte.

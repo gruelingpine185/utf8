@@ -5,14 +5,6 @@
 
 
 /**
- * Determines the amount of expected contiguous bytes not including the given
- * codepoint.
- *
- * Returns a value from -1 to 3 (inclusive). -1 indicates an invalid codepoint. 
-*/
-int utf8_get_expected_bytes(uint32_t _cp);
-
-/**
  * Collects a single codepoint pointed to by the given string.
  * 
  * This codepoint is expected to have 0 to 3 bytes following the initial byte.

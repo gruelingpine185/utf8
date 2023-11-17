@@ -5,32 +5,6 @@
 
 
 /**
- * A lookup table used to determine the quantity of bytes in succession of each
- * other based on an initial byte. This map is offset by -1 to respect the fact
- * that the initial byte is not being accounted for.
-*/
-const int codepoint_len_lookup[256] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-    3, 3, 3, 3, 3, 3, 3, 3,
-    -1, -1, -1, -1, -1, -1, -1, -1
-};
-
-
-/**
  * Determines the amount of expected contiguous bytes not including the given
  * codepoint.
  *
@@ -66,7 +40,12 @@ const char* utf8_advance_to_start(const char* _str) {
 }
 
 int utf8_get_expected_bytes(uint32_t _cp) {
-    return codepoint_len_lookup[_cp];
+    if((_cp & 0x80) == 0)    return 0;   // 0b0xxx xxxx
+    if((_cp & 0xe0) == 0xc0) return 1;   // 0b110x xxxx
+    if((_cp & 0xf0) == 0xe0) return 2;   // 0b1110 xxxx
+    if((_cp & 0xf8) == 0xf0) return 3;   // 0b1111 0xxx
+
+    return -1;
 }
 
 char* utf8_codepoint_to_str(const char* _str, int _bytes) {
